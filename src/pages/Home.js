@@ -23,17 +23,21 @@ export default function Home({ user }) {
   const handleDelete = async (id) => {
     const ref = doc(db, 'articles', id)
     await deleteDoc(ref);
+    window.location.reload();
   }
 
   const handleUpdate = async (e, id) => {
     e.preventDefault();
+    
     try {
       const ref = doc(db, 'articles', id);
       await updateDoc(ref, editArticle);
+      window.location.reload();
       setEditArticle(null);
       setArticles(prevArticles =>
         prevArticles.map(article =>
           article.id === id ? { ...article, ...editArticle } : article
+          
         )
       );
     } catch (error) {
