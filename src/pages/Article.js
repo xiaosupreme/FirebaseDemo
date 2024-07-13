@@ -1,31 +1,17 @@
-import { useNavigate, useParams } from "react-router-dom"
-import {getDoc, doc} from 'firebase/firestore';
-import {db} from '../firebase/config'
+import { useParams } from "react-router-dom"
 import { useEffect,useState } from 'react';
+import {getArticle} from "../services/articleService";
 
 export default function Article() {
   const { urlId } = useParams()
-  const navigate = useNavigate()
-
-  console.log("id: " + urlId)
-
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    const ref = doc(db, 'articles', urlId);
-    getDoc(ref)
+    getArticle(urlId)
       .then((snapshot)=>{        
         setArticle(snapshot.data());
       })
-
-  },[])  
-  
-
-  // if (!article) {
-  //   setTimeout(() => {
-  //     navigate('/')
-  //   }, 2000)
-  // }
+  },[])
 
   return (
     <div>
